@@ -3,6 +3,10 @@ shruti
 
 listen to all those updates using Ivona TTS
 
+This is a work-in-progress. In PRE PRE PRE ALPHA stage.
+A lot of things are expected to be changed.
+
+
 How it works
 -------------
 - shruti is a simple server that keeps listening for new TTS requests
