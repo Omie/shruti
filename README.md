@@ -73,6 +73,7 @@ Goal
     - Add actions, Mute, Unmute, Force speak
     - Build configuration, status pages
     - Make use of different voices for different providers
+    - Add support for noticing special tags probably. Add extra text to such texts to make it more natural
 
 Contributions, thoughts are welcome :)
 
