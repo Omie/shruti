@@ -37,7 +37,7 @@ About name
 -----------
 - The shruti is a Sanskrit term, which in the context of Indian music, is considered the smallest interval of pitch that the human ear can detect
 - [Shruti - wiki](http://en.wikipedia.org/wiki/Shruti_%28music%29)
-- besides, its a Girl's name and sounds catchy enough
+- besides, its a girl's name, suits the voice and sounds catchy enough
 
 
 How to write a provider

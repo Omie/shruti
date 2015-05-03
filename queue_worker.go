@@ -14,7 +14,8 @@ func RunResponseWorker() {
 			time.Sleep(10 * time.Second)
 			continue
 		}
-		log.Println("playing soemthig")
+		log.Println("playing:", ivonaResp.Text)
 		playAudioSlice(ivonaResp.Audio, ivonaResp.KeepFile)
+		time.Sleep(2 * time.Second)
 	}
 }
