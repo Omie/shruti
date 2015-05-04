@@ -57,7 +57,6 @@ How to set up
 - install ffmpeg. We need ffplay binary
 - get the shruti server binary, make sure to keep it up and running
 - make sure to export environment variables `SHRUTI_ACCESSKEY` and `SHRUTI_SECRETKEY`
-- make sure you have `audiofiles` directory created
 - run your providers however you want
 - You could use supervisor or upstart on Ubuntu.
 
