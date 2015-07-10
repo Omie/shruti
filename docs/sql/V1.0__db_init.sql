@@ -1,5 +1,5 @@
 
-CREATE SCHEMA IF NOT EXISTS contentdb;
+CREATE SCHEMA IF NOT EXISTS shrutidb;
 
 SET SCHEMA 'shrutidb';
 
