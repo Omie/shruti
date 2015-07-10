@@ -1,0 +1,382 @@
+FORMAT: 1A
+HOST: http://shrutiapp.apiblueprint.org/
+
+# shruti
+
+shruti is an audio notification server powered by Ivona TTS, this is its API description
+
+# Shruti API Root [/]
+
+This returns meta information, all at one big fat json
+
+## Retrieve the Entry Point [GET]
+
++ Response 200 (application/json) 
+
+        {
+            "api_version": 1.0
+        }
+
+## Group Plugins
+
+Resources related to Plugins
+
+## Single Plugin [/plugins/{plugin_name}/]
+
+You may register your plugin using this action.
+
+### Register a Plugin [POST]
+
++ Parameters
+    + plugin_name: "hackernews" (string) - plugin name
+    
++ Request (application/json)
+
+        {
+            "display_name": "Hacker News",
+            "description": "tech news",
+            "web_url": "http://news.ycombinator.com",
+            "icon_url": "https://news.ycombinator.com/favicon.ico",
+            "voice": "sally",
+            "active": true
+        }
+
++ Response 200 (application/json)
+
+    + Body
+
+            {
+                "message": "plugin registered successfully"
+            }
+
++ Response 500 (application/json)
+
+    + Body
+
+            {
+                "message": "error registering plugin"
+            }
+
+### Update a Plugin [PUT]
++ Parameters
+    + plugin_name: "hackernews" (string) - plugin name
+    
++ Request (application/json)
+
+        {
+            "display_name": "Hacker News",
+            "description": "tech news",
+            "web_url": "http://news.ycombinator.com",
+            "icon_url": "https://news.ycombinator.com/favicon.ico",
+            "voice": "ivona_voice_name",
+            "active": true
+        }
+
++ Response 200 (application/json)
+
+    + Body
+
+            {
+                "message": "plugin updated successfully"
+            }
+
++ Response 500 (application/json)
+
+    + Body
+
+            {
+                "message": "error updating plugin"
+            }
+
+### Remove a Plugin [DELETE]
+
++ Parameters
+    + plugin_name: "hackernews" (string) - plugin name
+    
++ Response 200 (application/json)
+
+    + Body
+
+            {
+                "message": "plugin removed successfully"
+            }
+
++ Response 500 (application/json)
+
+    + Body
+
+            {
+                "message": "error removing plugin"
+            }
+
+### Get a Plugin [GET]
++ Parameters
+    + plugin_name: "hackernews" (string) - plugin name
+    
++ Response 200 (application/json)
+
+    + Body
+
+            {
+                "name": "hackernews",
+                "display_name": "Hacker News",
+                "description": "tech news",
+                "web_url": "http://news.ycombinator.com",
+                "icon_url": "https://news.ycombinator.com/favicon.ico",
+                "voice": "sally",
+                "active": true                
+            }
+
++ Response 404 (application/json)
+
+    + Body
+
+            {
+                "message": "could not find plugin"
+            }
+
+
+## All Plugins [/plugins/]
+
+You may retrieve plugin information of all plugins using this action
+
+### Get a Plugin list [GET]
+
++ Response 200 (application/json)
+
+    + Body
+    
+            {
+                "plugins" : [
+                    {
+                        "name": "hackernews",
+                        "display_name": "Hacker News",
+                        "description": "tech news",
+                        "web_url": "http://news.ycombinator.com",
+                        "icon_url": "https://news.ycombinator.com/favicon.ico",
+                        "voice": "ivona_voice_name",
+                        "active": true
+                    },
+                    {
+                        "name": "bbc",
+                        "display_name": "BBC World News",
+                        "description": "world news",
+                        "web_url": "http://bbc.com",
+                        "icon_url": "https://bbc.com/favicon.ico",
+                        "voice": "jane",
+                        "active": false
+                    }
+                ],
+                "count": 2
+            }
+
++ Response 500 (application/json)
+
+    + Body
+
+            {
+                "message": "error processing request"
+            }
+
+
+
+## Group Notifications
+
+Resources related to Notifications in the API.
+
+## Notifications Collection [/notifications/{since}]
+
++ Parameters
+    + since: 0 (timestamp) - notifications since given timestamp
+
+### List notifications since given time [GET]
+
++ Response 200 (application/json)
+
+    + Body
+
+            [
+                {
+                    "title": "How Go was made",
+                    "url": "https://sourcegraph.com/blog/live/gophercon2015/123748269730",
+                    "audio: "/audio/foo123bar.mp3",
+                    "provider": "hackernews",
+                    "timestamp": "123456789"
+                },
+                {
+                    "title": "New Letters Added to the Genetic Alphabet",
+                    "url": "https://www.quantamagazine.org/20150710-genetic-alphabet/",
+                    "audio: "/audio/foo456bar.mp3",
+                    "provider": "hackernews",
+                    "timestamp": "123499789"
+                }                
+            ]
+
+## Push a notification [/notifications/]
+
+Push a notification entry
+
+Notice the field "key" in parameters. Plugins should take care to find a deterministic way to get a unique key
+(some sort of hash) for every notification entry. Use story_id if available from source or perhaps
+something like [ sha1(title+timestamp+provider_name) ]
+
+
+### Push a notification [POST]
+
++ Request (application/json)
+
+        {
+            "title": "How Go was made",
+            "url": "https://sourcegraph.com/blog/live/gophercon2015/123748269730",
+            "provider": "hackernews",
+            "key": "asdasdf12ndf12"
+        }
+
++ Response 200 (application/json)
+
+    + Body
+
+            {
+                "message": "notification saved successfully"
+            }
+
++ Response 500 (application/json)
+
+    + Body
+
+            {
+                "message": "error saving notification, duplicate"
+            }
+
+## Group Settings
+
+Actions related to settings
+
+## Setting [/settings/{setting_key}/]
+
+You may use this endpoint to retrieve current settings, create new keys at will.
+
+Note that few settings can't be deleted, for example: mute
+
+more in the docs
+
+### Create a Setting [POST]
+
++ Parameters
+    + setting_key: "foobar" (string) - setting name
+    
++ Request (application/json)
+
+        {
+            "value": "{}"
+        }
+
++ Response 200 (application/json)
+
+    + Body
+
+            {
+                "message": "setting created successfully"
+            }
+
++ Response 500 (application/json)
+
+    + Body
+
+            {
+                "message": "error creating setting"
+            }
+
+### Update a Setting [PUT]
+
++ Parameters
+    + setting_key: "foobar" (string) - setting name
+    
++ Request (application/json)
+
+        {
+            "value": "{}"
+        }
+
++ Response 200 (application/json)
+
+    + Body
+
+            {
+                "message": "setting updated successfully"
+            }
+
++ Response 500 (application/json)
+
+    + Body
+
+            {
+                "message": "error updating setting"
+            }
+
+
+### Get a Setting [GET]
+
++ Parameters
+    + setting_key: "foobar" (string) - setting name
+    
++ Response 200 (application/json)
+
+    + Body
+
+            {
+                "value": "{}"
+            }
+
++ Response 500 (application/json)
+
+    + Body
+
+            {
+                "message": "error getting setting"
+            }
+
+
+### Delete a Setting [DELETE]
+
++ Parameters
+    + setting_key: "foobar" (string) - setting name
+    
++ Response 200 (application/json)
+
+    + Body
+
+            {
+                "message": "setting deleted successfully"
+            }
+
++ Response 500 (application/json)
+
+    + Body
+
+            {
+                "message": "error deleting setting"
+            }
+
+## All Settings [/settings/]
+
+### Get all settings [GET]
+
+
++ Response 200 (application/json)
+
+    + Body
+
+            {
+                "settings_key1": "{}",
+                "settings_key2": "{}"
+            }
+
++ Response 500 (application/json)
+
+    + Body
+
+            {
+                "message": "error getting settings"
+            }
+
