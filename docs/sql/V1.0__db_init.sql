@@ -1,7 +1,7 @@
 
-CREATE SCHEMA IF NOT EXISTS shrutidb;
+-- CREATE SCHEMA IF NOT EXISTS shrutidb;
 
-SET SCHEMA 'shrutidb';
+-- SET SCHEMA 'shrutidb';
 
 
 CREATE TABLE "settings" (
