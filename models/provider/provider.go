@@ -31,13 +31,6 @@ func (self *Provider) ValidInsert() error {
 }
 
 func (self *Provider) ValidUpdate() error {
-	if self.Id <= 0 {
-		return errors.New("Provider ID not set")
-	}
-
-	if self.Name == "" {
-		return errors.New("Provider name cannot be empty")
-	}
 
 	if self.DisplayName == "" {
 		return errors.New("Provider display name cannot be empty")
