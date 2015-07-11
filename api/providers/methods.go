@@ -33,3 +33,11 @@ func createProvider(request *restful.Request, response *restful.Response) {
 	err = newProvider.Insert(db.DB)
 	api.CreateHandler(response, newProvider, err)
 }
+
+func deleteProvider(request *restful.Request, response *restful.Response) {
+	log.Println("--- deleteProvider")
+	provider_name := request.PathParameter("provider_name")
+
+	err := provider.Delete(db.DB, provider_name)
+	api.DeleteHandler(response, err)
+}

@@ -34,4 +34,9 @@ func initWebResource(ws *restful.WebService) {
 		Param(provider_name).
 		Operation("createProvider").
 		Reads(provider.Provider{}))
+
+	ws.Route(ws.DELETE("/{provider_name}").To(deleteProvider).
+		Doc("delete provider").
+		Param(provider_name).
+		Operation("deleteProvider"))
 }
