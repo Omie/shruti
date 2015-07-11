@@ -17,7 +17,7 @@ CREATE TABLE "providers" (
     "name"          TEXT UNIQUE NOT NULL,
     "display_name"  TEXT NOT NULL,
     "description"   TEXT,
-    "web_url"       TEXT NOT NULL,
+    "web_url"       TEXT,
     "icon_url"      TEXT,
     "active"        BOOL NOT NULL DEFAULT 'true'
 );
