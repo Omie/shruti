@@ -4,12 +4,15 @@ import (
 	"fmt"
 	"log"
 	"net/http"
-	//"os"
+	"os"
 
 	"github.com/omie/shruti/api"
 	_ "github.com/omie/shruti/api/notifications"
 	_ "github.com/omie/shruti/api/providers"
 	_ "github.com/omie/shruti/api/settings"
+	"github.com/omie/shruti/lib/db"
+
+	_ "github.com/lib/pq"
 )
 
 // var responseQueue *TTSResponseQueue
@@ -28,6 +31,16 @@ func main() {
 
 		InitIvona(accessKey, secretKey)
 	*/
+	dbUser := os.Getenv("SHRUTI_DBUSER")
+	dbName := os.Getenv("SHRUTI_DBNAME")
+	if dbUser == "" || dbName == "" {
+		log.Println("main: database environment variables not set")
+		return
+	}
+	if err := db.InitDB(dbUser, dbName); err != nil {
+		log.Println("error initializing database, Abort", err)
+		return
+	}
 
 	api.InitSwagger(fmt.Sprintf("http://%s:%d", "127.0.0.1", 9574))
 

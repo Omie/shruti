@@ -4,6 +4,7 @@ import (
 	"log"
 
 	"github.com/omie/shruti/api"
+	"github.com/omie/shruti/models/provider"
 
 	"github.com/emicklei/go-restful"
 )
@@ -23,8 +24,14 @@ func init() {
 func initWebResource(ws *restful.WebService) {
 	provider_name := ws.PathParameter("provider_name", "get provider").DataType("string")
 
-	ws.Route(ws.GET("/{provider_name:[a-z]+}").To(getProvider).
+	ws.Route(ws.GET("/{provider_name}").To(getProvider).
 		Doc("get provider").
 		Param(provider_name).
 		Operation("getProvider"))
+
+	ws.Route(ws.POST("/{provider_name}").To(createProvider).
+		Doc("create provider").
+		Param(provider_name).
+		Operation("createProvider").
+		Reads(provider.Provider{}))
 }

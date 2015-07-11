@@ -1,6 +1,7 @@
 package api
 
 import (
+	"database/sql"
 	"log"
 	"net/http"
 	"reflect"
@@ -56,7 +57,7 @@ func AddWebService(ws *restful.WebService) {
 
 func GetHandler(response *restful.Response, json interface{}, err error, notFoundCode int) {
 	if err != nil {
-		return
+		Error(response, err)
 	}
 
 	if json == nil || (reflect.TypeOf(json).Kind() == reflect.Ptr && !reflect.ValueOf(json).Elem().IsValid()) {
@@ -66,4 +67,55 @@ func GetHandler(response *restful.Response, json interface{}, err error, notFoun
 
 	response.WriteHeader(http.StatusOK)
 	response.WriteAsJson(json)
+}
+
+func Error(response *restful.Response, err error) {
+	response.AddHeader("Content-Type", "text/plain")
+	if err == nil {
+		log.Println("invalid controller.Error() call: error must not be nil!")
+		response.WriteHeader(http.StatusInternalServerError)
+	} else if err == sql.ErrNoRows {
+		response.WriteHeader(http.StatusNotFound)
+	} else {
+		response.WriteErrorString(http.StatusInternalServerError, err.Error())
+	}
+}
+
+func CreateHandler(response *restful.Response, respData interface{}, err error) {
+	if err != nil {
+		Error(response, err)
+		return
+	}
+
+	if reflect.TypeOf(respData).Kind() == reflect.Ptr && !reflect.ValueOf(respData).Elem().IsValid() {
+		response.WriteErrorString(http.StatusNotFound, "not found")
+		return
+	}
+
+	response.WriteHeader(http.StatusCreated)
+	response.WriteAsJson(respData)
+}
+
+func DeleteHandler(response *restful.Response, err error) {
+	if err != nil {
+		Error(response, err)
+		return
+	}
+
+	response.WriteHeader(http.StatusNoContent)
+}
+
+func PutHandler(response *restful.Response, respData interface{}, err error) {
+	if err != nil {
+		Error(response, err)
+		return
+	}
+
+	if reflect.TypeOf(respData).Kind() == reflect.Ptr && !reflect.ValueOf(respData).Elem().IsValid() {
+		response.WriteErrorString(http.StatusNotFound, "not found")
+		return
+	}
+
+	response.WriteHeader(http.StatusCreated)
+	response.WriteAsJson(respData)
 }
