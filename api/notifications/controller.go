@@ -4,6 +4,7 @@ import (
 	"log"
 
 	"github.com/omie/shruti/api"
+	"github.com/omie/shruti/models/notification"
 
 	"github.com/emicklei/go-restful"
 )
@@ -27,4 +28,10 @@ func initWebResource(ws *restful.WebService) {
 		Doc("get notifications").
 		Param(since).
 		Operation("getNotificationsSince"))
+
+	ws.Route(ws.POST("/").To(pushNotification).
+		Doc("push notification").
+		Operation("pushNotification").
+		Reads(notification.Notification{}))
+
 }
