@@ -34,3 +34,6 @@ CREATE TABLE "notifications" (
 ALTER TABLE "settings" ADD CONSTRAINT settings_fk0 FOREIGN KEY (provider) REFERENCES providers(id);
 ALTER TABLE "notifications" ADD CONSTRAINT notifications_fk_provider FOREIGN KEY (provider) REFERENCES providers(id);
 
+-- we will be looking up at all those notifications based on timestamp
+CREATE INDEX notifications_created_on on notifications(created_on);
+
