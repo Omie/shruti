@@ -28,6 +28,7 @@ func createProvider(request *restful.Request, response *restful.Response) {
 	err := request.ReadEntity(newProvider)
 	if err != nil {
 		api.Error(response, err)
+		return
 	}
 	newProvider.Name = provider_name
 	err = newProvider.Insert(db.DB)
@@ -50,6 +51,7 @@ func updateProvider(request *restful.Request, response *restful.Response) {
 	err := request.ReadEntity(newProvider)
 	if err != nil {
 		api.Error(response, err)
+		return
 	}
 
 	newProvider.Name = provider_name

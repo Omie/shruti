@@ -75,8 +75,10 @@ func Error(response *restful.Response, err error) {
 		log.Println("invalid controller.Error() call: error must not be nil!")
 		response.WriteHeader(http.StatusInternalServerError)
 	} else if err == sql.ErrNoRows {
+		log.Println("no rows returned")
 		response.WriteHeader(http.StatusNotFound)
 	} else {
+		log.Println("internal server error:", err)
 		response.WriteErrorString(http.StatusInternalServerError, err.Error())
 	}
 }
