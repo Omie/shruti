@@ -6,9 +6,9 @@ import (
 
 const (
 	INSERT_NOTIFICATION = `INSERT INTO notifications 
-	(title, url, key, provider) 
+	(title, url, key, provider, priority, action)
 	VALUES 
-	(:title, :url, :key, (SELECT id FROM providers WHERE name=:provider))`
+	(:title, :url, :key, (SELECT id FROM providers WHERE name=:provider), :priority, :action)`
 )
 
 func (self *Notification) Insert(conn *sqlx.DB) (err error) {
