@@ -22,7 +22,7 @@ func init() {
 }
 
 func initWebResource(ws *restful.WebService) {
-	provider_name := ws.PathParameter("provider_name", "get provider").DataType("string")
+	provider_name := ws.PathParameter("provider_name", "provider name").DataType("string")
 
 	ws.Route(ws.GET("/{provider_name}").To(getProvider).
 		Doc("get provider").
@@ -45,4 +45,8 @@ func initWebResource(ws *restful.WebService) {
 		Param(provider_name).
 		Operation("updateProvider").
 		Reads(provider.Provider{}))
+
+	ws.Route(ws.GET("/").To(getAllProviders).
+		Doc("get all providers").
+		Operation("getAllProviders"))
 }

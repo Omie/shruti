@@ -20,6 +20,14 @@ func getProvider(request *restful.Request, response *restful.Response) {
 	api.GetHandler(response, p, err, http.StatusNoContent)
 }
 
+func getAllProviders(request *restful.Request, response *restful.Response) {
+	log.Println("--- getAllProvidersProvider")
+
+	p, err := provider.GetAll(db.DB)
+
+	api.GetHandler(response, p, err, http.StatusNoContent)
+}
+
 func createProvider(request *restful.Request, response *restful.Response) {
 	log.Println("--- createProvider")
 	provider_name := request.PathParameter("provider_name")
