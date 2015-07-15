@@ -21,7 +21,7 @@ func getProvider(request *restful.Request, response *restful.Response) {
 }
 
 func getAllProviders(request *restful.Request, response *restful.Response) {
-	log.Println("--- getAllProvidersProvider")
+	log.Println("--- getAllProviders")
 
 	p, err := provider.GetAll(db.DB)
 
