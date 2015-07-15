@@ -11,6 +11,7 @@ import (
 )
 
 var Container *restful.Container
+var Cors restful.CrossOriginResourceSharing
 
 func init() {
 	log.Println("--- initializing api")
@@ -20,8 +21,18 @@ func init() {
 		Path("/api").
 		Doc("shruti api")
 
+	Cors = restful.CrossOriginResourceSharing{
+		AllowedMethods: []string{"GET", "PUT", "POST", "DELETE", "OPTIONS", "HEAD"},
+		ExposeHeaders:  []string{restful.HEADER_AccessControlAllowOrigin, restful.HEADER_AccessControlAllowMethods},
+		AllowedHeaders: []string{"Accept", "Content-Type"},
+		CookiesAllowed: false,
+		Container:      Container,
+	}
+
 	initWebResource(ws)
+
 	Container = restful.NewContainer()
+	Container.Filter(Cors.Filter)
 	Container.Add(ws)
 }
 
