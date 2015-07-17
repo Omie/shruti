@@ -69,6 +69,7 @@ func AddWebService(ws *restful.WebService) {
 func GetHandler(response *restful.Response, json interface{}, err error, notFoundCode int) {
 	if err != nil {
 		Error(response, err)
+		return
 	}
 
 	if json == nil || (reflect.TypeOf(json).Kind() == reflect.Ptr && !reflect.ValueOf(json).Elem().IsValid()) {
@@ -87,7 +88,7 @@ func Error(response *restful.Response, err error) {
 		response.WriteHeader(http.StatusInternalServerError)
 	} else if err == sql.ErrNoRows {
 		log.Println("no rows returned")
-		response.WriteHeader(http.StatusNotFound)
+		response.WriteErrorString(http.StatusNotFound, "not found")
 	} else {
 		log.Println("internal server error:", err)
 		response.WriteErrorString(http.StatusInternalServerError, err.Error())
