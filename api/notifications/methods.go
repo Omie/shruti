@@ -21,7 +21,7 @@ func getNotificationsSince(request *restful.Request, response *restful.Response)
 		api.Error(response, err)
 		return
 	}
-	tm := time.Unix(since, 0)
+	tm := time.Unix(since, 0).In(time.UTC)
 	n, err := notification.GetSince(db.DB, tm)
 
 	api.GetHandler(response, n, err, http.StatusNoContent)
