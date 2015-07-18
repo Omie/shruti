@@ -21,6 +21,10 @@ func (self *Provider) Update(conn *sqlx.DB) (err error) {
 	if err != nil {
 		return
 	}
-	_, err = conn.NamedQuery(UPDATE_PROVIDER, self)
+	rows, err := conn.NamedQuery(UPDATE_PROVIDER, self)
+	if err == nil {
+		rows.Close()
+	}
+
 	return
 }

@@ -16,6 +16,10 @@ func (self *Setting) Insert(conn *sqlx.DB) (err error) {
 	if err != nil {
 		return
 	}
-	_, err = conn.NamedQuery(INSERT_SETTING, self)
+	rows, err := conn.NamedQuery(INSERT_SETTING, self)
+	if err == nil {
+		defer rows.Close()
+	}
+
 	return
 }

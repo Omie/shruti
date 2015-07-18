@@ -19,6 +19,10 @@ func (self *Notification) Insert(conn *sqlx.DB) (err error) {
 		return
 	}
 	self.CreatedOn = time.Now().In(time.UTC)
-	_, err = conn.NamedQuery(INSERT_NOTIFICATION, self)
+	rows, err := conn.NamedQuery(INSERT_NOTIFICATION, self)
+	if err == nil {
+		defer rows.Close()
+	}
+
 	return
 }
