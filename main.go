@@ -19,21 +19,27 @@ import (
 
 func main() {
 
-	dbUser := os.Getenv("SHRUTI_DBUSER")
-	dbName := os.Getenv("SHRUTI_DBNAME")
-	if dbUser == "" || dbName == "" {
+	cString := os.Getenv("SHRUTI_CONN_STRING")
+	if cString == "" {
 		log.Println("main: database environment variables not set")
 		return
 	}
-	if err := db.InitDB(dbUser, dbName); err != nil {
+	if err := db.InitDB(cString); err != nil {
 		log.Println("error initializing database, Abort", err)
 		return
 	}
 
-	api.InitSwagger(fmt.Sprintf("http://%s:%d", "127.0.0.1", 9574))
+	host := os.Getenv("SHRUTI_SERVER_HOST")
+	port := os.Getenv("SHRUTI_SERVER_PORT")
+	if host == "" || port == "" {
+		log.Println("main: host or port not set")
+		return
+	}
+
+	api.InitSwagger(fmt.Sprintf("http://%s:%s", host, port))
 
 	server := &http.Server{
-		Addr:    fmt.Sprintf(":%d", 9574),
+		Addr:    fmt.Sprintf("%s:%s", host, port),
 		Handler: api.Container,
 	}
 
