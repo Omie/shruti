@@ -28,7 +28,6 @@ func MarkHeard(conn *sqlx.DB, unheardIds []int) (err error) {
 
 	_strIds := fmt.Sprintf("%s", ids)
 	strIds := "(" + _strIds[1:len(_strIds)-1] + ")"
-	fmt.Println("strids: ", strIds)
 
 	_, err = conn.NamedExec(fmt.Sprintf(MARK_HEARD_NOTIFICATION, HRD_UNHEARD, strIds), new(struct{}))
 	if err != nil {
