@@ -1,6 +1,7 @@
 package notifications
 
 import (
+	"encoding/json"
 	"log"
 	"net/http"
 	"strconv"
@@ -27,6 +28,13 @@ func getNotificationsSince(request *restful.Request, response *restful.Response)
 	api.GetHandler(response, n, err, http.StatusNoContent)
 }
 
+func getNotificationsUnheard(request *restful.Request, response *restful.Response) {
+	log.Println("--- getNotificationsUnheard")
+	n, err := notification.GetUnheard(db.DB)
+
+	api.GetHandler(response, n, err, http.StatusNoContent)
+}
+
 func pushNotification(request *restful.Request, response *restful.Response) {
 	log.Println("--- pushNotification")
 
@@ -38,4 +46,19 @@ func pushNotification(request *restful.Request, response *restful.Response) {
 	}
 	err = newNotification.Insert(db.DB)
 	api.CreateHandler(response, newNotification, err)
+}
+
+func markAsHeard(request *restful.Request, response *restful.Response) {
+	log.Println("--- markAsHeard")
+
+	ids := request.PathParameter("ids")
+	var unheardIds []int
+
+	err := json.Unmarshal([]byte(ids), &unheardIds)
+	if err != nil {
+		api.Error(response, err)
+		return
+	}
+	err = notification.MarkHeard(db.DB, unheardIds)
+	api.PutHandler(response, unheardIds, err)
 }

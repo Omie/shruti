@@ -23,6 +23,11 @@ func init() {
 
 func initWebResource(ws *restful.WebService) {
 	since := ws.PathParameter("since", "get all notifications since given timestamp").DataType("string")
+	ids := ws.PathParameter("ids", "ids of notifications").DataType("string")
+
+	ws.Route(ws.GET("/unheard").To(getNotificationsUnheard).
+		Doc("get unheard notifications").
+		Operation("getNotificationsUnheard"))
 
 	ws.Route(ws.GET("/{since:[0-9]+}").To(getNotificationsSince).
 		Doc("get notifications").
@@ -34,4 +39,8 @@ func initWebResource(ws *restful.WebService) {
 		Operation("pushNotification").
 		Reads(notification.Notification{}))
 
+	ws.Route(ws.PUT("/mark-heard/{ids}").To(markAsHeard).
+		Doc("mark notification as heard").
+		Param(ids).
+		Operation("markAsHeard"))
 }
