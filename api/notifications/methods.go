@@ -52,6 +52,7 @@ func markAsHeard(request *restful.Request, response *restful.Response) {
 	log.Println("--- markAsHeard")
 
 	ids := request.PathParameter("ids")
+	log.Println("received ids:", ids)
 	var unheardIds []int
 
 	err := json.Unmarshal([]byte(ids), &unheardIds)

@@ -16,8 +16,8 @@ const (
 	ACT_PUSH = 20
 
 	// Heard status
-	HRD_HEARD   = 10
-	HRD_UNHEARD = 20
+	HRD_UNHEARD = 10
+	HRD_HEARD   = 20
 )
 
 type Notification struct {
