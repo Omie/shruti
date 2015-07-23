@@ -12,6 +12,7 @@ type Provider struct {
 	WebURL      string `json:"web_url, omitempty" db:"web_url"`
 	IconURL     string `json:"icon_url, omitempty" db:"icon_url"`
 	Active      bool   `json:"active, omitempty" db:"active"`
+	Voice       string `json:"voice" db:"voice"`
 }
 
 func (self *Provider) ValidInsert() error {
@@ -27,6 +28,10 @@ func (self *Provider) ValidInsert() error {
 		return errors.New("Provider display name cannot be empty")
 	}
 
+	if self.Voice == "" {
+		return errors.New("Provider voice cannot be empty")
+	}
+
 	return nil
 }
 
@@ -34,6 +39,10 @@ func (self *Provider) ValidUpdate() error {
 
 	if self.DisplayName == "" {
 		return errors.New("Provider display name cannot be empty")
+	}
+
+	if self.Voice == "" {
+		return errors.New("Provider voice cannot be empty")
 	}
 
 	return nil

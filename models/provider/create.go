@@ -6,9 +6,9 @@ import (
 
 const (
 	INSERT_PROVIDER = `INSERT INTO providers 
-	(name, display_name, description, web_url, icon_url) 
+	(name, display_name, description, web_url, icon_url, voice)
 	VALUES 
-	(:name, :display_name, :description, :web_url, :icon_url)`
+	(:name, :display_name, :description, :web_url, :icon_url, :voice)`
 )
 
 func (self *Provider) Insert(conn *sqlx.DB) (err error) {

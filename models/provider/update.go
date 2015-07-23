@@ -11,7 +11,8 @@ const (
 	description=:description,
 	web_url=:web_url,
 	icon_url=:icon_url,
-	active=:active
+	active=:active,
+	voice=:voice
 	WHERE
 	name=:name`
 )

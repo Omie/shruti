@@ -10,7 +10,8 @@ CREATE TABLE "providers" (
     "description"       TEXT,
     "web_url"           TEXT,
     "icon_url"          TEXT,
-    "active"            BOOL NOT NULL DEFAULT 'true'
+    "active"            BOOL NOT NULL DEFAULT 'true',
+    "voice"             TEXT NOT NULL DEFAULT 'Nicole'
 );
 
 
