@@ -26,10 +26,13 @@ type Notification struct {
 	Url       string    `json:"url, omitempty" db:"url"`
 	Key       string    `json:"key" db:"key"`
 	Heard     string    `json:"heard" db:"heard"`
-	Provider  string    `json:"provider" db:"provider"`
+	Provider  int       `json:"provider" db:"provider"`
 	CreatedOn time.Time `json:"created_on, omitempty" db:"created_on"`
 	Priority  int       `json:"priority" db:"priority"`
 	Action    int       `json:"action" db:"action"`
+
+	// this exists to enable providers to push without knowing their id
+	ProviderName string `json:"provider_name, omitempty" db:"provider_name"`
 }
 
 func (self *Notification) ValidInsert() error {
@@ -45,8 +48,8 @@ func (self *Notification) ValidInsert() error {
 		return errors.New("Notification key cannot be empty")
 	}
 
-	if self.Provider == "" {
-		return errors.New("Notification provider cannot be empty")
+	if self.ProviderName == "" {
+		return errors.New("Notification provider name cannot be empty")
 	}
 
 	if self.Priority != PRIO_LOW && self.Priority != PRIO_MED &&
