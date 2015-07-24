@@ -59,16 +59,16 @@ func pushNotification(request *restful.Request, response *restful.Response) {
 		return
 	}
 	err = newNotification.Insert(db.DB)
-	if err == nil {
-		// try sending push notifications
-		go func() {
-			n, err := notification.GetSingle(db.DB, newNotification.Id)
-			if err != nil {
-				return
-			}
-			pusher.Push(n)
-		}()
+
+	// response cares about err during creation, do not modify it
+	// for supplimentary action
+	// Let it die on its own
+	n, err2 := notification.GetSingle(db.DB, newNotification.Id)
+	if err2 == nil {
+		newNotification = n
+		go pusher.Push(n)
 	}
+
 	api.CreateHandler(response, newNotification, err)
 }
 

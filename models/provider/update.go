@@ -24,7 +24,7 @@ func (self *Provider) Update(conn *sqlx.DB) (err error) {
 	}
 	rows, err := conn.NamedQuery(UPDATE_PROVIDER, self)
 	if err == nil {
-		rows.Close()
+		defer rows.Close()
 	}
 
 	return

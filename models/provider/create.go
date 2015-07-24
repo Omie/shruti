@@ -8,7 +8,7 @@ const (
 	INSERT_PROVIDER = `INSERT INTO providers 
 	(name, display_name, description, web_url, icon_url, voice)
 	VALUES 
-	(:name, :display_name, :description, :web_url, :icon_url, :voice)`
+	(:name, :display_name, :description, :web_url, :icon_url, :voice) returning id`
 )
 
 func (self *Provider) Insert(conn *sqlx.DB) (err error) {
@@ -19,6 +19,10 @@ func (self *Provider) Insert(conn *sqlx.DB) (err error) {
 	rows, err := conn.NamedQuery(INSERT_PROVIDER, self)
 	if err == nil {
 		defer rows.Close()
+		for rows.Next() {
+			rows.Scan(&self.Id)
+		}
+		err = rows.Err()
 	}
 
 	return

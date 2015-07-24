@@ -116,6 +116,7 @@ func DeleteHandler(response *restful.Response, err error) {
 		return
 	}
 
+	response.AddHeader("Content-Type", "text/plain")
 	response.WriteHeader(http.StatusNoContent)
 }
 
