@@ -8,9 +8,16 @@ import (
 )
 
 const (
+	SEL_NOTIFICATION_SINGLE   = `SELECT * from notifications WHERE id = $1`
 	SEL_NOTIFICATIONS_SINCE   = `SELECT * from notifications WHERE created_on >= $1 AND heard = $2`
 	SEL_NOTIFICATIONS_UNHEARD = `SELECT * from notifications WHERE heard = %d`
 )
+
+func GetSingle(conn *sqlx.DB, id int) (n *Notification, err error) {
+	n = new(Notification)
+	err = conn.Get(n, SEL_NOTIFICATION_SINGLE, id)
+	return
+}
 
 func GetSince(conn *sqlx.DB, since time.Time) (n []*Notification, err error) {
 	n = make([]*Notification, 0)

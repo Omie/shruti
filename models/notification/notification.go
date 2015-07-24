@@ -25,7 +25,7 @@ type Notification struct {
 	Title     string    `json:"title" db:"title"`
 	Url       string    `json:"url, omitempty" db:"url"`
 	Key       string    `json:"key" db:"key"`
-	Heard     string    `json:"heard" db:"heard"`
+	Heard     int       `json:"heard" db:"heard"`
 	Provider  int       `json:"provider" db:"provider"`
 	CreatedOn time.Time `json:"created_on, omitempty" db:"created_on"`
 	Priority  int       `json:"priority" db:"priority"`

@@ -10,7 +10,7 @@ const (
 	INSERT_NOTIFICATION = `INSERT INTO notifications 
 	(title, url, key, provider, priority, action, created_on)
 	VALUES 
-	(:title, :url, :key, (SELECT id FROM providers WHERE name=:provider_name), :priority, :action, :created_on)`
+	(:title, :url, :key, (SELECT id FROM providers WHERE name=:provider_name), :priority, :action, :created_on) returning id`
 )
 
 func (self *Notification) Insert(conn *sqlx.DB) (err error) {
@@ -22,6 +22,11 @@ func (self *Notification) Insert(conn *sqlx.DB) (err error) {
 	rows, err := conn.NamedQuery(INSERT_NOTIFICATION, self)
 	if err == nil {
 		defer rows.Close()
+
+		for rows.Next() {
+			rows.Scan(&self.Id)
+		}
+		err = rows.Err()
 	}
 
 	return

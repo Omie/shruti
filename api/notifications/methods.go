@@ -9,10 +9,24 @@ import (
 
 	"github.com/omie/shruti/api"
 	"github.com/omie/shruti/lib/db"
+	"github.com/omie/shruti/lib/pusher"
 	"github.com/omie/shruti/models/notification"
 
 	"github.com/emicklei/go-restful"
 )
+
+func getNotification(request *restful.Request, response *restful.Response) {
+	log.Println("--- getNotification")
+	_id := request.PathParameter("id")
+	id, err := strconv.ParseInt(_id, 10, 64)
+	if err != nil {
+		api.Error(response, err)
+		return
+	}
+	n, err := notification.GetSingle(db.DB, int(id))
+
+	api.GetHandler(response, n, err, http.StatusNoContent)
+}
 
 func getNotificationsSince(request *restful.Request, response *restful.Response) {
 	log.Println("--- getNotificationsSince")
@@ -45,6 +59,16 @@ func pushNotification(request *restful.Request, response *restful.Response) {
 		return
 	}
 	err = newNotification.Insert(db.DB)
+	if err == nil {
+		// try sending push notifications
+		go func() {
+			n, err := notification.GetSingle(db.DB, newNotification.Id)
+			if err != nil {
+				return
+			}
+			pusher.Push(n)
+		}()
+	}
 	api.CreateHandler(response, newNotification, err)
 }
 
