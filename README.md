@@ -73,11 +73,19 @@ Please read the documentation at [shruti-deployment](https://github.com/Omie/shr
 Goal
 -----
 
-- Do not go after building J.A.R.V.I.S. There is already a project for that [jasper](http://jasperproject.github.io/)
+- Improve and be ready for the time when IoT fianlly takes over our lives with data from everywhere
+- Seriously, take a look at these few
+    - [ThingSpeak](https://thingspeak.com/) 
+    - [xively](https://xively.com/)
+    - [TEMBOO](https://www.temboo.com/)
 
 
 Contributions, thoughts are welcome :)
 
-License MIT
+
+License
+-------
+
+MIT License
 
 
