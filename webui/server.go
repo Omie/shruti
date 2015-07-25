@@ -1,4 +1,4 @@
-package main
+package webui
 
 import (
 	//"encoding/json"
@@ -28,22 +28,6 @@ func assetsHandler(w http.ResponseWriter, r *http.Request) {
 	http.ServeFile(w, r, filepath.Join("./assets", static))
 }
 
-// push a job to the queue
-func pushTTSHandler(w http.ResponseWriter, r *http.Request) {
-	log.Println("--- pushTTSHandler")
-	r.ParseForm()
-	text := r.FormValue("text")
-	//TODO: make sure to validate if voice is allowed
-	voice := r.FormValue("voice")
-	provider := r.FormValue("provider")
-
-	log.Println("pushTTSHandler:", provider, text, voice)
-	GetTTSFromIvona(provider, text, voice, false)
-
-	// redirect to result page where the user waits for response
-	w.Write([]byte("pushed" + text + voice))
-}
-
 // Handles the actions such as
 // mute, unmute, force speak etc
 func actionHandler(w http.ResponseWriter, r *http.Request) {
@@ -66,7 +50,6 @@ func StartHTTPServer(host string, port string) error {
 
 	r.HandleFunc(`/assets/{path:[a-zA-Z0-9=\-\/\.\_]+}`, assetsHandler)
 
-	r.HandleFunc("/push/", pushTTSHandler).Methods("POST")
 	r.HandleFunc("/action/{action}", actionHandler).Methods("GET")
 
 	http.Handle("/", r)
