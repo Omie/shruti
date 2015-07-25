@@ -1,0 +1,26 @@
+{
+	"ImportPath": "github.com/omie/shruti",
+	"GoVersion": "go1.4.1",
+	"Deps": [
+		{
+			"ImportPath": "github.com/emicklei/go-restful",
+			"Comment": "v1.1.3-54-gbdfb7d4",
+			"Rev": "bdfb7d41639a84ea7c36df648e5865cd9fbf21e2"
+		},
+		{
+			"ImportPath": "github.com/jmoiron/sqlx",
+			"Comment": "sqlx-v1.1-18-g56b62f2",
+			"Rev": "56b62f29e9936b8fc0db14ed01297f88ba518333"
+		},
+		{
+			"ImportPath": "github.com/lib/pq",
+			"Comment": "go1.0-cutoff-56-gdc50b6a",
+			"Rev": "dc50b6ad2d3ee836442cf3389009c7cd1e64bb43"
+		},
+		{
+			"ImportPath": "github.com/pusher/pusher-http-go",
+			"Comment": "v1.0.0-2-gba6a901",
+			"Rev": "ba6a9011dd91b7917647d8bdbd9523c862810550"
+		}
+	]
+}
